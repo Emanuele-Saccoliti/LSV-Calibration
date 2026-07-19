@@ -84,8 +84,7 @@ ctest --test-dir build/cmake --output-on-failure
 
 ## Run the complete engine
 
-After the editable installation, the entire reproducible synthetic workflow is
-one command:
+After the installation, the entire workflow can be launch by
 
 ```bash
 lsv-run
