@@ -98,7 +98,7 @@ surfaces. The terminal prints all 15 synthetic-versus-Heston vanilla prices,
 the target-versus-LSV call repricing, and the DNT price with its Monte Carlo
 standard error. Closing the plot window completes the command.
 
-Artifacts are written to `results/`:
+Outputs are stored in `results/`:
 
 - `calibration_summary.json`: parameters and numerical diagnostics;
 - `calibrated_surfaces.npz`: implied vol, local vol, and leverage arrays;
