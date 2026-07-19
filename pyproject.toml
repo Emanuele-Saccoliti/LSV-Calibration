@@ -1,0 +1,56 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "pybind11>=2.13"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "lsv-model"
+version = "0.1.0"
+description = "Local-stochastic volatility calibration and exotic pricing engine"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "LSV Model Contributors" }]
+dependencies = [
+  "matplotlib>=3.8",
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "PyYAML>=6.0",
+  "scipy>=1.11",
+]
+
+[project.scripts]
+lsv-run = "lsv.cli:main"
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.11",
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "types-PyYAML>=6.0",
+]
+
+[tool.scikit-build]
+cmake.version = ">=3.20"
+wheel.packages = ["src/python/lsv"]
+build-dir = "build/{wheel_tag}"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+packages = ["lsv"]
+mypy_path = "src/python"
+
+[[tool.mypy.overrides]]
+module = ["lsv_cpp", "matplotlib.*", "pandas", "scipy.*"]
+ignore_missing_imports = true

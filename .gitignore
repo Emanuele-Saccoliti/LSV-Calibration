@@ -1,0 +1,14 @@
+.venv/
+.DS_Store
+build/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.so
+*.dylib
+*.dll
+results/*.json
+results/*.npz
+results/*.png
