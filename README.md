@@ -122,6 +122,45 @@ The standalone CMake command disables the Python extension because the editable
 installation has already built it. To build the extension directly with CMake,
 install pybind11 and pass its CMake package directory through `CMAKE_PREFIX_PATH`.
 
+## Minimal Heston calibration example
+
+The calibration routine can also be used directly from Python without running the
+complete LSV workflow. The following example calibrates Heston parameters to a
+small set of vanilla option prices.
+
+```python
+from lsv.heston_calibration import (
+    HestonCalibrationQuote,
+    calibrate_heston,
+)
+from lsv.heston_pricer import HestonParameters
+
+quotes = [
+    HestonCalibrationQuote(maturity=1.0, strike=90.0, price=14.2),
+    HestonCalibrationQuote(maturity=1.0, strike=100.0, price=8.5),
+    HestonCalibrationQuote(maturity=1.0, strike=110.0, price=4.3),
+]
+
+initial = HestonParameters(
+    kappa=2.0,
+    theta=0.04,
+    eta=0.5,
+    rho=-0.7,
+    v0=0.04,
+)
+
+report = calibrate_heston(
+    spot=100.0,
+    rate=0.02,
+    dividend_yield=0.0,
+    quotes=quotes,
+    initial=initial,
+)
+
+print(report.parameters)
+print(report.objective_value)
+```
+
 ## Mathematical conventions
 
 - maturities are year fractions and volatilities are annualized;
@@ -135,6 +174,8 @@ install pybind11 and pass its CMake package directory through `CMAKE_PREFIX_PATH
 - Dupire uses discounted calls and includes all constant-rate drift/dividend
   terms; see [docs/methodology.md](docs/methodology.md).
 
-Current limitations: touch-time rebates and non-maturity payment conventions
-are not supported. The included exotic calibration benchmark is synthetic and
-is labelled as such.
+## Current limitations:
+
+- touch-time rebates are not supported;
+- non-maturity payment conventions are not supported;
+- the included exotic calibration benchmark is synthetic.
